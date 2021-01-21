@@ -3,12 +3,13 @@
     box-shadow: 0 0 10px rgb(102 98 98);
     padding: 15px;
     height: 300px;
+    display: flex;
+    
 }
 
 .post__image {
     flex: 0.3 ;
-    background-repeat: no-repeat;
-    background-position: center;
+    
 }
 .post__info {
 flex: 1;
