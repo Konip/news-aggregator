@@ -1,5 +1,6 @@
 import React from 'react'
 import "./Post.css"
+
 export default function Post({ title, description, image }) {
     return (
         <div className='post'>
