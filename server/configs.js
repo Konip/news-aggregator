@@ -16,7 +16,7 @@ const elems = {
     },
 }
 
-export default elems
-// module.exports = {
-//     elems: elems,
-// }
+// export default elems
+module.exports = {
+    elems: elems,
+}

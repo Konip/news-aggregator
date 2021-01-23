@@ -1,14 +1,14 @@
-// const unirest = require("unirest")
-// const cheerio = require("cheerio")
-import unirest from "unirest"
-import cheerio from "cheerio"
+const unirest = require("unirest")
+const cheerio = require("cheerio")
+// import unirest from "unirest"
+// import cheerio from "cheerio"
 
- const parserPost = (url, elems) => {
+  const parserPost = (url, elems) => {
     unirest
         .get(url)
-        .end(response => {
+        .end(({body}) => {
 
-            const body = response.body
+            
             const $ = cheerio.load(body)
             const title = $(elems.title).text().trim()
             const image = $(elems.image).attr('src')
