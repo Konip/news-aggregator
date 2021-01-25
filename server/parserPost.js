@@ -31,11 +31,17 @@ const parseLinks = (url, className) => {
 
             const $ = cheerio.load(body)
             let links = []
-
-            $(className).each((_, e) => {
-                links.push($(e).attr("href"))
+            let count = []
+            // $(className).find("data-section:nth-child(n)").find("a").each((_, e) => {
+            $(className).find("a").each((_, e) => {
+                if ($(e).attr("href").indexOf(url) >= 0) {
+                    links.push($(e).attr("href"))
+                    count++
+                }
             })
             console.log(links)
+            console.log(count)
+
         })
 }
 
