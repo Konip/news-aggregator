@@ -1,28 +1,42 @@
 const unirest = require("unirest")
 const cheerio = require("cheerio")
-// import unirest from "unirest"
-// import cheerio from "cheerio"
 
-  const parserPost = (url, elems) => {
-    unirest
-        .get(url)
-        .end(({body}) => {
+const delay = ms => new Promise(r => setTimeout(r, ms))
 
-            
-            const $ = cheerio.load(body)
-            const title = $(elems.title).text().trim()
-            const image = $(elems.image).attr('src')
-            const text = $(elems.text).text().trim()
+const parserPost = (url, elems) => {
+    return new Promise((resolve, reject) => {
+        unirest
+            .get(url)
+            .end(({ body }) => {
 
-            const post = {
-                title: title,
-                image: image,
-                text: text,
-            }
-            console.log(post)
-        })
+                const $ = cheerio.load(body)
+                const title = $(elems.title).text().trim()
+                const image = $(elems.image).attr('src')
+                const text = $(elems.text).text().trim()
 
+                const post = {
+                    title: title,
+                    image: image,
+                    text: text,
+                }
+            })
+        resolve(post)
+    })
 
 }
-// export default parserPost
-module.exports = parserPost
+const parseLinks = (url, className) => {
+    unirest
+        .get(url)
+        .end(({ body }) => {
+
+            const $ = cheerio.load(body)
+            let links = []
+
+            $(className).each((_, e) => {
+                links.push($(e).attr("href"))
+            })
+            console.log(links)
+        })
+}
+
+module.exports = { parserPost, parseLinks }
