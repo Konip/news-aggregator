@@ -4,19 +4,18 @@ const elems = {
         image: '.photoview__open img',
         text: '.article__text',
     },
-    rgNews: {
-        title: '.b-material-head__row h1',
-        image: '.b-material-img__img',
-        text: '.b-material-wrapper__text p',
-    },
     tassNews: {
         title: '.news-header__title',
         image: '.text-include-photo__img',
         text: '.text-block p',
     },
+    rtNews: {
+        title: '.article.article_article-page h1',
+        image: '.article__cover-image',
+        text: '.article__text.article__text_article-page.js-mediator-article p',
+    },
 }
 
-// export default elems
 module.exports = {
     elems: elems,
 }
