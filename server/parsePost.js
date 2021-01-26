@@ -37,11 +37,19 @@ const parsePost = (url, elems) => {
                 image: image,
                 text: text,
             }
-            resolve(post)
+            console.log(post)
+            console.log(post.title.length)
+            console.log(typeof post)
+            post.title && post.image && post.text
+                ? resolve(post)
+                : reject({ error: 'empty' })
+            // resolve(post) 
+
+
         })
     })
 }
-const parseLinks = (url, className) => {
+const parseLinks = (url, className, i = 10) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
             const $ = cheerio.load(body)
@@ -52,31 +60,47 @@ const parseLinks = (url, className) => {
             if (url == "https://ria.ru/") {
                 $(className).find("a").each((_, e) => {
                     if ($(e).attr("href").indexOf(url) >= 0) {
-                        links.push($(e).attr("href"))
-                        count++
+                        if (count < i) {
+                            links.push($(e).attr("href"))
+                            count++
+                        }
                     }
                 })
             }
             else {
                 $(className).find("a").each((_, e) => {
-                    links.push(`${url}` + ($(e).attr("href")))
-                    count++
+                    if (count < i) {
+                        links.push(`${url}` + ($(e).attr("href")))
+                        count++
+                    }
                 })
             }
 
-            // console.log(links)
-            // console.log(count)
+            console.log(links)
+            console.log(count)
+            // console.log(links.map(l => {
+            //     console.log(typeof l)
+            // }))
 
             resolve(links)
             if (!links.length) reject({ error: 'empty' })
         })
     })
 }
-const fetchLinks = async (links) => {
+const getPosts = async (links) => {
+
+    let posts = []
+
     for (let index = 0; index < links.length; index++) {
-        const post = await parsePost(links[index], elems.rtNews).then(post => post)
-        console.log(post)
-        await delay(1000)
+        const post = await parsePost(links[index], elems.tassNews)
+            .then(post => post).catch(e => console.log(e))
+
+        // console.log(post)
+        posts.push(post)
+        // await delay(1000)
     }
+    return new Promise((resolve, reject) => {
+        resolve(posts)
+    })
 }
-module.exports = { parsePost, parseLinks, fetchLinks }
+module.exports = { parsePost, parseLinks, getPosts }
