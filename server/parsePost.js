@@ -37,10 +37,10 @@ const parsePost = (url, elems) => {
                 image: image,
                 text: text,
             }
-            console.log(post)
+            // console.log(post)
             console.log(post.title.length)
-            console.log(typeof post)
-            post.title && post.image && post.text
+            // console.log(typeof post)
+            post.title && image && text
                 ? resolve(post)
                 : reject({ error: 'empty' })
             // resolve(post) 
@@ -49,7 +49,7 @@ const parsePost = (url, elems) => {
         })
     })
 }
-const parseLinks = (url, className, i = 10) => {
+const parseLinks = (url, className, i = 20) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
             const $ = cheerio.load(body)
@@ -95,8 +95,8 @@ const getPosts = async (links) => {
         const post = await parsePost(links[index], elems.tassNews)
             .then(post => post).catch(e => console.log(e))
 
-        // console.log(post)
-        posts.push(post)
+        console.log(post)
+        if (post) posts.push(post)
         // await delay(1000)
     }
     return new Promise((resolve, reject) => {
