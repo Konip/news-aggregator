@@ -4,6 +4,7 @@ const { elems } = require("./configs")
 
 const delay = ms => new Promise(r => setTimeout(r, ms))
 
+
 const parsePost = (url, elems) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
@@ -35,6 +36,7 @@ const parseLinks = (url, className, i = 10) => {
             let links = []
             let count = []
 
+
             $(className).find("a").each((_, e) => {
 
                 if ($(e).attr("href").includes('https://')) {
@@ -49,6 +51,7 @@ const parseLinks = (url, className, i = 10) => {
                             links.push(`${url}` + ($(e).attr("href")))
                             count++
                         }
+                    
                 }
             })
             console.log(links)

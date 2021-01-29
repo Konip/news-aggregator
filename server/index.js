@@ -8,14 +8,11 @@ const saveResult = (json) => {
         if (err) console.log('not saved')
     })
 }
-// parseLinks("https://ria.ru/", "#content")
-// parseLinks("https://russian.rt.com", ".rows__flex")
+parseLinks("https://ria.ru", ".content div[data-section=2]")
+// parseLinks("https://russian.rt.com", ".layout__rows .rows_wide:nth-child(-n+3)")
 
-parseLinks("https://tass.ru", ".container")
+// parseLinks("https://tass.ru", "main.container section")
     .then(links => {
         getPosts(links).then(posts => saveResult(JSON.stringify(posts)))
         // getPosts(links).then(posts => console.log(posts))
     }).catch(e => console.log(e))
-
-// parsePost('https://tass.ru/kosmos/10537195', elems.tassNews)
-// parsePost('https://ria.ru/20210126/prikhodko-1594597292.html', elems.riaNews)
