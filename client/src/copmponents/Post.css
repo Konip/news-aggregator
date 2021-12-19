@@ -1,0 +1,25 @@
+/* .post {
+    margin: 30px;
+    box-shadow: 0 0 10px rgb(102 98 98);
+    padding: 15px;
+    height: 300px;
+    display: flex;
+
+}
+
+.post__image {
+    flex: 0.3;
+
+}
+
+.post__info {
+    flex: 1;
+    padding: 15px 30px;
+} */
+.section-block {
+    /* width: 33.33333%; */
+    margin-bottom: 15px;
+}
+.css-b6lsxj-MuiButtonBase-root-MuiCardActionArea-root{
+    /* height: 100%; */
+}

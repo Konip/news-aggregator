@@ -1,0 +1,45 @@
+ .App {
+   /* text-align: center; */
+   background-color: #000;
+ }
+
+ .Layout-container {
+   width: 100%;
+   max-width: 1335px;
+   margin: 0 auto;
+ }
+
+ .Layout-header {
+   text-align: center;
+ }
+
+ .Layout-content {
+   width: 100%;
+   max-width: 1335px;
+   margin: 0 auto;
+   /* display: flex; */
+ }
+
+ .grid-root {
+   display: block;
+ }
+
+ .grid-container {
+   margin-bottom: 15px;
+   padding-top: 2.25rem;
+   padding-bottom: 2.25rem;
+   padding-left: 1.8rem;
+   background: #f2f2f2;
+   border-radius: 10px;
+ }
+
+ .section {
+   display: flex;
+   flex-flow: wrap;
+   /* flex-flow: row nowrap; */
+   width: 100%;
+   max-width: 1335px;
+   margin: 0 auto 15px;
+ }
+
+ 

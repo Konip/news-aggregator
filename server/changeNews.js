@@ -19,7 +19,7 @@ const arrayType = {
 
 const saveResult = (json) => {
 
-    fs.writeFile('jsresult.json', json, (err) => {
+    fs.writeFile('result.json', json, (err) => {
         if (err) console.log('not saved')
     })
 }

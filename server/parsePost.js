@@ -2,8 +2,6 @@ const unirest = require("unirest")
 const cheerio = require("cheerio")
 const { elems } = require("./configs")
 
-const delay = ms => new Promise(r => setTimeout(r, ms))
-
 const parsePost = (url, elems) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
@@ -14,60 +12,57 @@ const parsePost = (url, elems) => {
             const text = $(elems.text).text().trim()
 
             const post = {
-                title: title,
-                image: image,
-                text: text,
+                title,
+                image,
+                text,
             }
             // console.log(post)
-            console.log(post.title.length)
-            // console.log(typeof post)
+     
             post.title && image && text
                 ? resolve(post)
                 : reject({ error: 'empty' })
         })
     })
 }
+
 const parseLinks = (url, className, i = 10) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
             const $ = cheerio.load(body)
 
             let links = []
-            let count = []
 
             $(className).find("a").each((_, e) => {
 
                 if ($(e).attr("href").includes('https://')) {
-                    if (count < i) {
+                    if (0 < i) {
                         links.push($(e).attr("href"))
-                        count++
+                        i--
                     }
                 }
                 else {
-                   
-                        if (count < i) {
-                            links.push(`${url}` + ($(e).attr("href")))
-                            count++
-                        }
+                    if (0 < i) {
+                        links.push(`${url}` + ($(e).attr("href")))
+                        i--
+                    }
                 }
             })
             console.log(links)
-            console.log(count)
-
-            resolve(links)
+            console.log(links.length)
             if (!links.length) reject({ error: 'empty' })
+            resolve(links)
         })
     })
 }
-const getPosts = async (links) => {
 
+const getPosts = async (links, newsPaper) => {
+    console.log(links);
     let posts = []
 
-    for (let index = 0; index < links.length; index++) {
-        const post = await parsePost(links[index], elems.riaNews)
+    for (let i = 0; i < links.length; i++) {
+        const post = await parsePost(links[i], elems[newsPaper])
             .then(post => post).catch(e => console.log(e))
 
-        console.log(post)
         if (post) posts.push(post)
         // await delay(1000)
     }

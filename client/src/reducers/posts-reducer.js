@@ -1,4 +1,3 @@
-import posts from '../posts.json';
 
 const initialState = {
     posts: [],
