@@ -1,5 +1,5 @@
 const { parsePost, parseLinks, getPosts } = require('./parsePost')
-const { elems } = require("./configs")
+const { config } = require("../config")
 const fs = require("fs")
 
 const arrayType = {

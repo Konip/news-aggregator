@@ -1,36 +1,42 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Post.css";
 
-const st = {
 
-}
+export default function Post({ title, description, image,translit }) {
+    useEffect(()=>{
 
-export default function Post({ title, description, image }) {
+    },[])
+    let navigate  = useNavigate()
+
     return (
-        <div className="section-block">
-            <Card sx={{ maxWidth: 410, height: 458, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        height="250"
-                        image={image}
-                        alt="green iguana"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div"
-                            sx={{ fontSize: 19.2, fontWeight: 600 }}
-                        >
-                            {title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary"
-                        sx={{overflow:'hidden'}}
-                        >
-                         {description}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
+        <div className="section-block" onClick={navigate("/news" + "/" + translit)}>
+            <Link to={`/news/${translit}`} >
+                <Card sx={{ maxWidth: 410, height: 458, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}
+                >
+                    <CardActionArea >
+                        <CardMedia
+                            component="img"
+                            height="250"
+                            image={image}
+                            alt="green iguana"
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div"
+                                sx={{ fontSize: 19.2, fontWeight: 600 }}
+                            >
+                                {title}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary"
+                                sx={{ overflow: 'hidden' }}
+                            >
+                                {description}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Link>
         </div>
 
     );

@@ -1,4 +1,4 @@
-const elems = {
+const config = {
     'https://ria.ru': {
         title: '.article__header h1',
         image: '.photoview__open img',
@@ -17,5 +17,5 @@ const elems = {
 }
 
 module.exports = {
-    elems: elems,
+    config
 }

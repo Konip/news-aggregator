@@ -4,8 +4,8 @@ const path = require('path')
 const cors = require('cors')
 require('dotenv').config()
 
-const { parsePost, parseLinks, getPosts } = require('./parsePost')
-const { elems } = require("./configs")
+const { parseLinks, getPosts } = require('./utils/parser')
+
 
 const app = express()
 

@@ -1,23 +1,29 @@
 const unirest = require("unirest")
 const cheerio = require("cheerio")
-const { elems } = require("./configs")
+const { config } = require("../config")
+const {translit} = require('../utils/translit')
 
-const parsePost = (url, elems) => {
+let id = 0
+const parsePost = (url, config) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
 
             const $ = cheerio.load(body)
-            const title = $(elems.title).text().trim()
-            const image = $(elems.image).attr('src')
-            const text = $(elems.text).text().trim()
+            const title = $(config.title).text().trim()
+            const image = $(config.image).attr('src')
+            const text = $(config.text).text().trim()
 
             const post = {
+                id,
+                translit : translit(title),
                 title,
                 image,
                 text,
             }
+
+            id++
             // console.log(post)
-     
+
             post.title && image && text
                 ? resolve(post)
                 : reject({ error: 'empty' })
@@ -60,7 +66,7 @@ const getPosts = async (links, newsPaper) => {
     let posts = []
 
     for (let i = 0; i < links.length; i++) {
-        const post = await parsePost(links[i], elems[newsPaper])
+        const post = await parsePost(links[i], config[newsPaper])
             .then(post => post).catch(e => console.log(e))
 
         if (post) posts.push(post)
