@@ -1,14 +1,14 @@
-.news {
-    text-align: center;
-}
+.news {}
 
 .news-container {
     width: 100%;
     max-width: 1335px;
     margin: 0 auto;
+    position: relative;
 }
 
 .news-content {
+
     margin-bottom: 15px;
     padding: 45px 15px 38px;
     padding-left: 1.8rem;
@@ -19,18 +19,29 @@
 }
 
 .news-title {
+    text-align: center;
     margin-bottom: 15px;
     font-size: 37px;
     line-height: 42px;
+    padding: 0 15px;
 }
-.news-img{
+
+.news-img {
     display: flex;
     margin: 0 auto;
     margin-top: 20px;
     margin-bottom: 40px;
+    width: 100%;
+    padding: 0px 90px;
 }
-.news-text{
+
+.news-text {
+    text-align: left;
     font-size: 20px;
     line-height: 28px;
     padding: 0 90px;
+}
+
+p {
+    margin: 15px 0;
 }

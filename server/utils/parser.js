@@ -1,7 +1,7 @@
 const unirest = require("unirest")
 const cheerio = require("cheerio")
 const { config } = require("../config")
-const {translit} = require('../utils/translit')
+const { translit } = require('../utils/translit')
 
 let id = 0
 const parsePost = (url, config) => {
@@ -11,18 +11,33 @@ const parsePost = (url, config) => {
             const $ = cheerio.load(body)
             const title = $(config.title).text().trim()
             const image = $(config.image).attr('src')
-            const text = $(config.text).text().trim()
+            // const text = $(config.text).text().trim()
+            const text = $(config.text).html()
+            console.log(text);
+
+            if (!isNaN(text)) return reject({ error: 'empty' })
+
+            let tag1 = config.tag1
+            let tag2 = config.tag2
+
+            let req = new RegExp(`<${tag1}(.|\n)*?>(.|\n)*?<\/${tag2}>`, 'g')
+            let str = text.match(req)
+                .join('')
+                .replace(/div/g, 'p')
+
+
+            console.log(str);
 
             const post = {
                 id,
-                translit : translit(title),
+                newspaper: config.news,
+                translit: translit(title),
                 title,
                 image,
-                text,
+                text: str,
             }
 
             id++
-            // console.log(post)
 
             post.title && image && text
                 ? resolve(post)
@@ -31,42 +46,44 @@ const parsePost = (url, config) => {
     })
 }
 
-const parseLinks = (url, className, i = 10) => {
+const parseLinks = (url, className, i = 20) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
             const $ = cheerio.load(body)
 
-            let links = []
+            let links = new Set()
 
             $(className).find("a").each((_, e) => {
 
-                if ($(e).attr("href").includes('https://')) {
+                let atr = $(e).attr("href")
+
+                if (atr.includes('https://')) {
                     if (0 < i) {
-                        links.push($(e).attr("href"))
+                        links.add($(e).attr("href"))
                         i--
                     }
                 }
-                else {
+                else if (atr.match(/[0-9]/g)) {
                     if (0 < i) {
-                        links.push(`${url}` + ($(e).attr("href")))
+                        links.add(`${url}` + ($(e).attr("href")))
                         i--
                     }
                 }
             })
             console.log(links)
             console.log(links.length)
-            if (!links.length) reject({ error: 'empty' })
-            resolve(links)
+            if (!links.size) reject({ error: 'empty' })
+            resolve([...links])
         })
     })
 }
 
-const getPosts = async (links, newsPaper) => {
-    console.log(links);
+const getPosts = async (links, newspaper) => {
+
     let posts = []
 
     for (let i = 0; i < links.length; i++) {
-        const post = await parsePost(links[i], config[newsPaper])
+        const post = await parsePost(links[i], config[newspaper])
             .then(post => post).catch(e => console.log(e))
 
         if (post) posts.push(post)

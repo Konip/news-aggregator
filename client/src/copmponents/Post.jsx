@@ -1,37 +1,39 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./Post.css";
 
+export default function Post({ title, description, image, translit, newspaper }) {
 
-export default function Post({ title, description, image,translit }) {
-    useEffect(()=>{
-
-    },[])
-    let navigate  = useNavigate()
+    let navigate = useNavigate()
 
     return (
-        <div className="section-block" onClick={navigate("/news" + "/" + translit)}>
+        <div className="section-block" onClick={() => navigate("/news" + "/" + translit)}>
             <Link to={`/news/${translit}`} >
-                <Card sx={{ maxWidth: 410, height: 458, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}
+                {/* <Card sx={{ maxWidth: 410, height: 458, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }} */}
+                <Card sx={{ maxWidth: 410, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}
                 >
-                    <CardActionArea >
+                    {/* <CardActionArea sx={{ maxWidth: 410, height: 458, top: 0 }}> */}
+                    <CardActionArea sx={{ maxWidth: 410, height: '100%', top: 0 }}>
                         <CardMedia
                             component="img"
                             height="250"
                             image={image}
-                            alt="green iguana"
+                            alt=""
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div"
-                                sx={{ fontSize: 19.2, fontWeight: 600 }}
+                                sx={{ fontSize: 19.2, fontWeight: 600, paddingBottom: 4 }}
                             >
+                                <div className="newspaper">
+                                    {newspaper}
+                                </div>
                                 {title}
                             </Typography>
                             <Typography variant="body2" color="text.secondary"
                                 sx={{ overflow: 'hidden' }}
                             >
-                                {description}
+                                {/* {description} */}
                             </Typography>
                         </CardContent>
                     </CardActionArea>

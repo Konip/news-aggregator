@@ -1,56 +1,44 @@
 import { Button } from '@mui/material';
-import axios from 'axios';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import result from '../result.json';
+import { getPostThunk } from './../store/posts-reducer';
 import './Home.css';
 import Post from './Post';
 
 export default function Home() {
 
-    console.log(process.env.REACT_APP_SERVER_URL);
     const [data, setData] = useState(result)
-    const [loading, setLoading] = useState(false)
 
-    // useEffect(() => setData(result), [])
+    const dispatch = useDispatch()
+    const { posts, loading } = useSelector(({ posts }) => posts)
+    console.log(posts);
 
     function getNews(str) {
-        setLoading(true)
-        axios.get(process.env.REACT_APP_SERVER_URL + str)
-            .then(({ data }) => setData(data))
-            .finally(setLoading(false))
+        dispatch(getPostThunk(str))
     }
-    let loc = useLocation()
-    // setTimeout(() => {
-    //     console.log('fetch');
-    //     getNews('tass')
-    // }, 60000)
 
-    // setTimeout(() => {
-    //     console.log('fetch');
-    //     getNews('tass')
-    // }, 120000)
+    React.useEffect(() => getNews('tass'), [])
+
 
     return (
         <div className="Layout-container">
-            <div className='Layout-header'>
+            <div className='header'>
                 {/* <button onClick={() => changeNews('riaNews')}>Ria</button> */}
                 <Button variant="outlined" onClick={() => getNews('rt')}>Rt</Button>
                 <Button variant="outlined" onClick={() => getNews('tass')}>Tass</Button>
+                <Button variant="outlined" onClick={() => getNews('ria')}>Ria</Button>
             </div>
             <div className='Layout-content'>
                 <div className="grid-root">
                     <div className="grid-container">
                         <div className="section">
-
-                            {data &&
-                                data.map((d, index) => (
+                            {posts &&
+                                posts.map((d, index) => (
                                     <Post key={index} title={d.title} description={d.text}
-                                        image={d.image}  translit={d.translit}/>
+                                        image={d.image} translit={d.translit} newspaper={d.newspaper} />
                                 ))
                             }
-
-
                         </div>
                     </div>
                 </div>

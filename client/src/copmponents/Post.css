@@ -20,6 +20,18 @@
     /* width: 33.33333%; */
     margin-bottom: 17px;
 }
-.css-b6lsxj-MuiButtonBase-root-MuiCardActionArea-root{
+
+.css-b6lsxj-MuiButtonBase-root-MuiCardActionArea-root {
     /* height: 100%; */
+}
+
+
+.newspaper {
+    font-family: Proxima Nova, Arial, Helvetica Neue, sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #b88b58;
+    font-size: .9rem;
+    margin-bottom: 6px;
 }
