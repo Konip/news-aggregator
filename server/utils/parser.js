@@ -46,7 +46,7 @@ const parsePost = (url, config) => {
     })
 }
 
-const parseLinks = (url, className, i = 20) => {
+const parseLinks = (url, className, i = 2) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
             const $ = cheerio.load(body)

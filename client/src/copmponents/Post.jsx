@@ -10,8 +10,7 @@ export default function Post({ title, description, image, translit, newspaper })
     return (
         <div className="section-block" onClick={() => navigate("/news" + "/" + translit)}>
             <Link to={`/news/${translit}`} >
-                {/* <Card sx={{ maxWidth: 410, height: 458, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }} */}
-                <Card sx={{ maxWidth: 410, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}
+                <Card sx={{ maxWidth: 410, minHeight: 450, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}
                 >
                     {/* <CardActionArea sx={{ maxWidth: 410, height: 458, top: 0 }}> */}
                     <CardActionArea sx={{ maxWidth: 410, height: '100%', top: 0 }}>
