@@ -15,6 +15,8 @@ const postReducers = (state = initialState, { type, payload }) => {
     switch (type) {
         case SET_POST: {
             return {
+                // ...state,
+                // posts: [...payload]
                 ...state,
                 posts: [...state.posts, ...payload]
             }
@@ -37,12 +39,15 @@ export const setLoading = (payload) => ({ type: LOADING, payload })
 export const getPostThunk = (str) => {
 
     return (dispatch) => {
-        dispatch(setLoading(true))
+        // dispatch(setLoading(true))
 
         getPost(str).then(res => {
             console.log(res)
-            dispatch(setPost(res))
-            dispatch(setLoading(false))
+            if (res.length) {
+                console.log('-----------')
+                dispatch(setPost(res))
+
+            }
         })
     }
 }

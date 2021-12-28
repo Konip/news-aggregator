@@ -3,14 +3,14 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./Post.css";
 
-export default function Post({ title, description, image, translit, newspaper }) {
+export default function Post({ title, image, translit, newspaper,time }) {
 
     let navigate = useNavigate()
-
+    console.log(translit);
     return (
         <div className="section-block" onClick={() => navigate("/news" + "/" + translit)}>
             <Link to={`/news/${translit}`} >
-                <Card sx={{ maxWidth: 410, minHeight: 450, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}
+                <Card sx={{ maxWidth: 410, minHeight: 475, borderRadius: 2, ml: 1, mr: 1, boxShadow: 'unset' }}
                 >
                     {/* <CardActionArea sx={{ maxWidth: 410, height: 458, top: 0 }}> */}
                     <CardActionArea sx={{ maxWidth: 410, height: '100%', top: 0 }}>
@@ -32,7 +32,7 @@ export default function Post({ title, description, image, translit, newspaper })
                             <Typography variant="body2" color="text.secondary"
                                 sx={{ overflow: 'hidden' }}
                             >
-                                {/* {description} */}
+                                {time}
                             </Typography>
                         </CardContent>
                     </CardActionArea>

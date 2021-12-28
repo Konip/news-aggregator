@@ -1,9 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
-
 const { parseLinks, getPosts } = require('./utils/parser')
-
 
 const app = express()
 const PORT = 5000
@@ -30,20 +28,24 @@ app.get('/tass', (req, res) => {
 
 app.get('/rt', (req, res) => {
     parseLinks(RT, ".layout__rows .rows__flex")
-    // parseLinks(RT, ".layout__rows .rows_wide:nth-child(-n+3)")
         .then(links => {
             getPosts(links, RT)
                 .then(posts => res.send(posts))
-        }).catch(e => console.log(e))
+        }).catch(e => {
+            res.send([])
+            console.log(e)
+        })
 })
 
 app.get('/ria', (req, res) => {
     parseLinks(RIA, ".content div[data-section=2]")
-    // parseLinks(RT, ".layout__rows .rows_wide:nth-child(-n+3)")
         .then(links => {
             getPosts(links, RIA)
                 .then(posts => res.send(posts))
-        }).catch(e => console.log(e))
+        }).catch(e => {
+            res.send([])
+            console.log(e)
+        })
 })
 
 app.listen(PORT, () => console.log(`Server start ${PORT}`))
