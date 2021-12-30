@@ -5,7 +5,6 @@ import postReducers from './posts-reducer.js';
 
 export const rootReducers = combineReducers({
     posts: postReducers,
-    // newspaper: newspaperReducer
 })
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

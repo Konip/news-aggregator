@@ -1,12 +1,3 @@
-function unix(time) {
-
-    var date = new Date(time * 1000);
-    var hours = date.getHours();
-    var minutes = "0" + date.getMinutes();
-
-    return (hours + ':' + minutes.substr(-2))
-}
-
 function dateFormatting(date, newspaper) {
     const abbreviation = {
         "Jan": "января",

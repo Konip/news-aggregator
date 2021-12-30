@@ -5,11 +5,10 @@ import CloseIcon from './CloseIcon';
 import './Home.css';
 import "./News.css";
 
-export default function News({ }) {
+export default function News() {
 
     let location = useLocation()
     let str = location.pathname.split('/')[2]
-    console.log(str)
     const [data, setData] = useState()
 
     const { posts, loading } = useSelector(({ posts }) => posts)
@@ -27,7 +26,6 @@ export default function News({ }) {
             }
         }
     }, [])
-    console.log(data);
 
     return (
         < div className="news">

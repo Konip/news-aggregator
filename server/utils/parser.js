@@ -1,12 +1,13 @@
 const unirest = require("unirest")
-const { dbLinks } = require('./../db');
+// const { dbLinks } = require('./../db');
 const cheerio = require("cheerio")
 const { config } = require("../config")
 const { translit } = require('../utils/translit')
 const { dateFormatting } = require('../utils/time')
 
-
 let id = 0
+let dbLinks = new Set()
+
 const parsePost = (url, config) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
@@ -61,7 +62,7 @@ const parsePost = (url, config) => {
     })
 }
 
-const parseLinks = (url, className, i = 1) => {
+const parseLinks = (url, className, i = process.env.NUMBER_OF_POSTS) => {
     return new Promise((resolve, reject) => {
         unirest.get(url).end(({ body }) => {
             const $ = cheerio.load(body)
@@ -86,16 +87,16 @@ const parseLinks = (url, className, i = 1) => {
                 }
                 i--
             })
-            console.log(links)
+            // console.log(links)
             // console.log(links.length)
             if (!links.size) reject({ error: 'empty' })
-            resolve([...links])
+            resolve({ 'links': [...links], newspaper: url })
         })
     })
 }
 
-const getPosts = async (links, newspaper) => {
-
+const getPosts = async (value) => {
+        const { links, newspaper } = value
     let posts = []
 
     for (let i = 0; i < links.length; i++) {
@@ -110,4 +111,21 @@ const getPosts = async (links, newspaper) => {
         resolve(posts)
     })
 }
-module.exports = { parsePost, parseLinks, getPosts }
+
+
+function resetDB() {
+    dbLinks = new Set()
+}
+
+let min = 60000
+let h = 3600000
+
+setInterval(() => {
+    // console.log(dbLinks);
+    // console.log('resetDB');
+    id = 0
+    resetDB()
+    // console.log(dbLinks);
+}, h * 12)
+
+module.exports = { parsePost, parseLinks, getPosts,dbLinks }

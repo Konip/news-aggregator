@@ -27,9 +27,11 @@ function translit(word) {
     }
 
     return answer
+        .replace(/ — /g, ' ')
+        .replace(/ - /g, ' ')
         .replace(/ /g, '-')
         .replace(/[«»'"\s]/g, '')
-        // .replace(/[ - ]/g, '-')
+
 }
 
 module.exports = { translit } 
