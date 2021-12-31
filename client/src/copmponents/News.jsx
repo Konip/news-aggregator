@@ -12,7 +12,7 @@ export default function News() {
     const [data, setData] = useState()
 
     const { posts, loading } = useSelector(({ posts }) => posts)
-    console.log(posts);
+    // console.log(posts);
 
     React.useEffect(() => {
         for (let i = 0; i < posts.length; i++) {
@@ -41,7 +41,6 @@ export default function News() {
                         </div>
                         <img className="news-img" src={data && data.image} />
                         <div className="news-text">
-                            {/* {data.text} */}
                         </div>
                     </div>
                 </div>

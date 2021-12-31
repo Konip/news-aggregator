@@ -1,12 +1,10 @@
 const unirest = require("unirest")
-// const { dbLinks } = require('./../db');
 const cheerio = require("cheerio")
 const { config } = require("../config")
 const { translit } = require('../utils/translit')
 const { dateFormatting } = require('../utils/time')
+const state = require('../state/state')
 
-let id = 0
-let dbLinks = new Set()
 
 const parsePost = (url, config) => {
     return new Promise((resolve, reject) => {
@@ -17,6 +15,7 @@ const parsePost = (url, config) => {
             const image = $(config.image).attr('src')
             const text = $(config.text).html()
             let time
+
             if (config.news === 'ТАСС') {
                 let req = new RegExp('"article_publication_date".*GMT', 'g')
                 let str = body.match(req)
@@ -24,7 +23,7 @@ const parsePost = (url, config) => {
                 let date = str.slice(str.search(', ') + 1, -3)
                 time = dateFormatting(date)
             } else {
-                date = $(config.time).text()
+                date = $(config.time).text().replace(/[\n\t]/g,'')
                 time = dateFormatting(date, config.news)
             }
             // console.log(time);
@@ -44,7 +43,6 @@ const parsePost = (url, config) => {
             // console.log(str);
 
             const post = {
-                id,
                 newspaper: config.news,
                 time,
                 translit: translit(title),
@@ -52,8 +50,6 @@ const parsePost = (url, config) => {
                 image,
                 text: str,
             }
-
-            id++
 
             post.title && image && text
                 ? resolve(post)
@@ -74,21 +70,21 @@ const parseLinks = (url, className, i = process.env.NUMBER_OF_POSTS) => {
                 let atr = $(e).attr("href")
 
                 if (atr.includes('https://')) {
-                    if (0 < i && !dbLinks.has(atr)) {
-                        dbLinks.add(atr)
+                    if (0 < i && !state.check(atr)) {
+                        state.setLinks(atr)
                         links.add(atr)
                     }
                 }
                 else if (atr.match(/[0-9]/g) && !atr.includes('#')) {
-                    if (0 < i && !dbLinks.has(atr)) {
-                        dbLinks.add(atr)
+                    if (0 < i && !state.check(`${url}` + atr)) {
+                        state.setLinks(`${url}` + atr)
                         links.add(`${url}` + atr)
                     }
                 }
                 i--
             })
             // console.log(links)
-            // console.log(links.length)
+            // console.log(state.links)
             if (!links.size) reject({ error: 'empty' })
             resolve({ 'links': [...links], newspaper: url })
         })
@@ -96,7 +92,8 @@ const parseLinks = (url, className, i = process.env.NUMBER_OF_POSTS) => {
 }
 
 const getPosts = async (value) => {
-        const { links, newspaper } = value
+
+    const { links, newspaper } = value
     let posts = []
 
     for (let i = 0; i < links.length; i++) {
@@ -113,19 +110,5 @@ const getPosts = async (value) => {
 }
 
 
-function resetDB() {
-    dbLinks = new Set()
-}
 
-let min = 60000
-let h = 3600000
-
-setInterval(() => {
-    // console.log(dbLinks);
-    // console.log('resetDB');
-    id = 0
-    resetDB()
-    // console.log(dbLinks);
-}, h * 12)
-
-module.exports = { parsePost, parseLinks, getPosts,dbLinks }
+module.exports = { parsePost, parseLinks, getPosts }

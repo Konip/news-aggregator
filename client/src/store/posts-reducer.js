@@ -1,6 +1,7 @@
-import { getPost } from './../api/postApi';
+import { getAllPosts, getPost } from './../api/postApi';
 
 const SET_POST = "SET_POST ";
+const SET_ALL_POST = "SET_ALL_POST ";
 const LOADING = "LOADING"
 
 let initialState = {
@@ -24,7 +25,9 @@ const postReducers = (state = initialState, { type, payload }) => {
                 }
             }
         }
-
+        case SET_ALL_POST: {
+            return { ...state, posts: payload }
+        }
         case LOADING: {
             return { ...state, loading: payload }
         }
@@ -37,6 +40,7 @@ const postReducers = (state = initialState, { type, payload }) => {
 export default postReducers
 
 export const setPost = (posts) => ({ type: SET_POST, payload: posts })
+export const setAllPost = (posts) => ({ type: SET_ALL_POST, payload: posts })
 export const setLoading = (payload) => ({ type: LOADING, payload })
 
 export const getPostThunk = (str) => {
@@ -44,11 +48,9 @@ export const getPostThunk = (str) => {
         // dispatch(setLoading(true))
 
         getPost(str).then(res => {
-            console.log(res)
+            // console.log(res)
             if (res.length) {
-                console.log('-----------')
                 dispatch(setPost(res))
-
             }
         })
     }
@@ -57,19 +59,13 @@ export const getPostThunk = (str) => {
 export const getAllPostThunk = (str) => {
     return (dispatch) => {
         // dispatch(setLoading(true))
-        Promise.all([
-            getPost('ria'),
-            getPost('tass'),
-            getPost('rt')
-        ])
-            .then(res => {
-                console.log(res)
-                if (res.length) {
-                    console.log('-----------')
-                    let data = res.reduce((ac, el) => ac.concat(el), [])
-                    dispatch(setPost(data))
 
-                }
-            })
+        getAllPosts().then(res => {
+            // console.log(res)
+            if (res.length) {
+                let data = res.reduce((ac, el) => ac.concat(el), [])
+                dispatch(setAllPost(data))
+            }
+        })
     }
 }

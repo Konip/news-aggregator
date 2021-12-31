@@ -2,9 +2,11 @@ const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
 const { parseLinks, getPosts } = require('./utils/parser')
+const { interval } = require('./utils/interval')
+const state = require('./state/state')
 
 const app = express()
-const PORT = 5000
+const PORT = process.env.PORT
 
 const RIA = 'https://ria.ru'
 const RT = 'https://russian.rt.com'
@@ -47,5 +49,10 @@ app.get('/ria', (req, res) => {
         })
 })
 
+app.get('/all', (req, res) => {
+    res.send(state.posts)
+})
 
 app.listen(PORT, () => console.log(`Server start ${PORT}`))
+
+interval()

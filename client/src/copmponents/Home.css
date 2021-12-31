@@ -26,6 +26,8 @@
   padding-bottom: 2.25rem;
   background: #f2f2f2;
   border-radius: 10px;
+
+  min-height: 100vh;
 }
 
 .section {
