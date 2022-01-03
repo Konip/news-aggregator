@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+// import { Button } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPostThunk, getPostThunk } from '../store/posts-reducer';
@@ -24,10 +24,10 @@ export default function Home() {
     return (
         <div className="Layout-container">
             <div className='header'>
-                <Button variant="outlined" onClick={() => getNews('rt')}>Rt</Button>
+                {/* <Button variant="outlined" onClick={() => getNews('rt')}>Rt</Button>
                 <Button variant="outlined" onClick={() => getNews('tass')}>Tass</Button>
                 <Button variant="outlined" onClick={() => getNews('ria')}>Ria</Button>
-                <Button variant="outlined" onClick={() => getAllNews()}>All</Button>
+                <Button variant="outlined" onClick={() => getAllNews()}>All</Button> */}
             </div>
             <div className='Layout-content'>
                 <div className="grid-root">

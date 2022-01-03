@@ -6,7 +6,7 @@ import Footer from './copmponents/Footer';
 import Header from './copmponents/Header';
 import Home from './copmponents/Home';
 import News from './copmponents/News';
-// import { useInterval } from './hooks/useInterval';
+import { useInterval } from './hooks/useInterval';
 import { getAllPostThunk } from './store/posts-reducer';
 
 function App() {
@@ -16,6 +16,10 @@ function App() {
   function getAllNews() {
     dispatch(getAllPostThunk())
   }
+
+  React.useEffect(() => {
+    getAllNews()
+  }, [])
 
   let min = 60000
 

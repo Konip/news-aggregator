@@ -1,7 +1,7 @@
-Агрегатор новостей на NodeJS (парсер + API) и ReactJS (клиентская часть)
+Агрегатор новостей на Express.js и React
 
 Используемые технологии:
-1. NodeJS
+1. Express.js
 2. React
 3. Unirest
 4. Cheerio 
