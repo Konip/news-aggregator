@@ -51,10 +51,7 @@ function interval() {
         console.log('resetDB');
         resetDB()
         console.log(state.posts);
-    }, h * 12)
+    }, h * 24)
 }
-
-
-
 
 module.exports = { interval }
